@@ -6,7 +6,7 @@ WriteMakefile(
 	      NAME              => 'TM::Easy',
 	      VERSION_FROM      => 'lib/TM/Easy.pm', # finds $VERSION
               PREREQ_PM      => { # do a 'make dependencies' to get an update
-		  'TM'            => '1.33',
+		  'TM'            => '1.44',
 		  "Test::More"    => 0.47,
 	      },
 	      ABSTRACT_FROM  => 'lib/TM/Easy.pm', # retrieve abstract from module

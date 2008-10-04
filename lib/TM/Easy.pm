@@ -3,7 +3,7 @@ package TM::Easy;
 use strict;
 use warnings;
 
-our $VERSION  = '0.01';
+our $VERSION  = '0.02';
 
 use TM::Easy::Map;
 use TM::Easy::Topic;
@@ -94,23 +94,39 @@ B<NOTE>: At the moment, we support only reading. That may change in the future.
 
 =over
 
-=item keys
+=item keys: get all local toplet identifiers
 
-keys I<%$map>               # get all local toplet identifiers
+keys I<%$map>
 
 =item fetch
 
-I<$map>->{xxx}              # get the toplet with this toplet identifier
+=over
 
-I<$map>->{'http://... ~'}   # get the toplet with this subject identifier
+=item get the toplet with this toplet identifier
 
-I<$map>->{'http://...'}     # same
+I<$map>->{xxx}
 
-I<$map>->{'http://... ='}   # get the toplet with this toplet identifier
+=item get the toplet with this subject identifier
 
-=item exists
+I<$map>->{'http://... ~'}
 
-exists I<$map>->{xxx}       # check whether the toplet with this toplet identifier exists
+=item same
+
+I<$map>->{'http://...'}
+
+=item get the toplet with this subject address
+
+I<$map>->{'http://... ='}
+
+=back
+
+=item exists: check whether the toplet exists
+
+exists I<$map>->{xxx}
+
+exists I<$map>->{'http://... ~'}
+
+exists I<$map>->{'http://... ='}
 
 =back
 
@@ -218,6 +234,12 @@ sub new {
 	} elsif ($provenance{file} =~ /\.ltm$/i) {                                        # most likely LTM
 	    use TM::Materialized::LTM;
 	    $tm = new TM::Materialized::LTM (file => $provenance{file})->sync_in;
+	} elsif ($provenance{file} =~ /\.ctm$/i) {                                        # most likely CTM
+	    use TM::Materialized::CTM;
+	    $tm = new TM::Materialized::CTM (file => $provenance{file})->sync_in;
+	} elsif ($provenance{file} =~ /\.xtm$/i) {                                        # most likely XTM
+	    use TM::Materialized::XTM;
+	    $tm = new TM::Materialized::XTM (file => $provenance{file})->sync_in;
 	} else {                                                                          # assume it is astma
 	    use TM::Materialized::AsTMa;
 	    $tm = new TM::Materialized::AsTMa (file => $provenance{file})->sync_in;
