@@ -3,7 +3,7 @@ package TM::Easy;
 use strict;
 use warnings;
 
-our $VERSION  = '0.02';
+our $VERSION  = '0.03';
 
 use TM::Easy::Map;
 use TM::Easy::Topic;
@@ -31,7 +31,7 @@ TM::Easy - Topic Maps, Easy Usage
   my $mm = new TM::Easy (file => 'somewhereelse.ltm');
 
   # more flexibility when doing it in several steps:
-  # acquire a map from somewhere, any may should do (see TM)
+  # acquire a map from somewhere, any map should do (see TM)
   use TM;
   my $tm = new TM;
 
@@ -64,8 +64,8 @@ TM::Easy - Topic Maps, Easy Usage
      warn $a->{$role}                  # output ONE player (does not work if there are several!)
      warn $a->{"-> $role"}             # same with TMQL notation
 
-     warn $a->{"$role_s"};             # get list of all role players
-     warn $a->{"-> $role_s"};          # same, with TMQL notation
+     warn $a->{"${role}_s"};           # get list of all role players
+     warn $a->{"-> ${role}_s"};        # same, with TMQL notation
   }
 
   foreach (@{ $hubert->{'<-> likes'} }) {  # iterate over all on the other side(s)
@@ -86,7 +86,7 @@ topic map is a hash, a topic is a hash and an association is an hash. In that, t
 access to topics in maps, names and occurrences in topics and roles and players in associations via
 keys.
 
-Unsurprisingly, this package does not harness all the beauty (or uglyness) of L<TM>.
+Unsurprisingly, this package does not harness all the beauty (or ugliness) of L<TM>.
 
 B<NOTE>: At the moment, we support only reading. That may change in the future.
 

@@ -25,15 +25,10 @@ manifesto:
 	find t    -iname '*.t'  | sort
 
 upload:
-	cpan-upload-http TM-Easy-\$(VERSION).tar.gz
-
-inject:
-	mcpani --add --module TM --authorid DRRHO --modversion \$(VERSION) --file TM-Easy-\$(VERSION).tar.gz
-	sudo mcpani --inject
-	echo "reload index" | cpan
+	cpan-upload TM-Easy-\$(VERSION).tar.gz
 
 debian:
-	(cd /usr/local/share/packages; rm -rf TM* ; dh-make-perl --cpan-mirror file:/usr/local/share/minicpan --build --cpan TM::Easy --notest)
+	dh-make-perl --build TM-Easy-\$(VERSION)/
 
 MAKE
 }

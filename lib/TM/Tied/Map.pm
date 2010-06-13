@@ -16,16 +16,19 @@ sub FETCH {
     if ($key =~ /^__/) {
 	return $self->{$key};
 
-    } elsif ($key =~ /(.*)\s*=\s*$/) {                         # subject address
-	my $tid = $self->{__tm}->tids ($1) || die "topic with subject address '$1' does not exist";
+    } elsif ($key =~ /(.*?)\s*=\s*$/) {                         # subject address
+	my $url = $1;                                          # why do I need this?
+	my $tid = $self->{__tm}->tids ($url) || die "topic with subject address '$1' does not exist";
 	return new TM::Easy::Topic ($tid, $self->{__tm});
 
-    } elsif ($key =~ /(.*)\s*~\s*$/) {                         # subject identifier
-	my $tid = $self->{__tm}->tids (\ $1) || die "topic with subject identifier '$1' does not exist";
+    } elsif ($key =~ /(.*?)\s*~\s*$/) {                         # subject identifier
+	my $url = $1;                                          # why do I need this?
+	my $tid = $self->{__tm}->tids (\ $url) || die "topic with subject identifier '$1' does not exist";
 	return new TM::Easy::Topic ($tid, $self->{__tm});
 
     } elsif ($key =~ /((http|ftp|mailto):.*)/) {               # subject identifier
-	my $tid = $self->{__tm}->tids (\ $1) || die "topic with subject identifier '$1' does not exist";
+	my $url = $1;                                          # why do I need this?
+	my $tid = $self->{__tm}->tids (\ $url) || die "topic with subject identifier '$1' does not exist";
 	return new TM::Easy::Topic ($tid, $self->{__tm});
 
     } else {                                                   # id
@@ -39,14 +42,17 @@ sub EXISTS {
     if ($key =~ /^__/) {
 	return exists $self->{$key};
 
-    } elsif ($key =~ /(.*)\s*=\s*$/) {                         # subject address
-	return $self->{__tm}->tids ($1);
+    } elsif ($key =~ /(.*?)\s*=\s*$/) {                        # subject address
+	my $url = $1;                                          # why do I need this?
+	return $self->{__tm}->tids ($url);
 
-    } elsif ($key =~ /(.*)\s*~\s*$/) {                         # subject identifier
-	return $self->{__tm}->tids (\ $1);
+    } elsif ($key =~ /(.*?)\s*~\s*$/) {                        # subject identifier
+	my $url = $1;
+	return $self->{__tm}->tids (\ $url);
 
     } elsif ($key =~ /((http|ftp|mailto):.*)/) {               # subject identifier
-	return $self->{__tm}->tids (\ $1);
+	my $url = $1;
+	return $self->{__tm}->tids (\ $url);
 
     } else {                                                   # id
 	return $self->{__tm}->tids ($key);
